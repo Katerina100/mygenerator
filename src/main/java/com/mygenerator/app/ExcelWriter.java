@@ -62,12 +62,23 @@ public class ExcelWriter {
     private static void createSheetContent(Workbook book, List<Person> people) {
         Date currentDate = new Date();
 
-        Sheet sheet = book.createSheet("People");
+        Sheet sheet = book.createSheet("Список людей");
+        
+        Row headerRow = sheet.createRow(0);
+        
+        Cell fullNameHeader = headerRow.createCell(0);
+        fullNameHeader.setCellValue("ФИО");
+        
+        Cell birthDateHeader = headerRow.createCell(1);
+        birthDateHeader.setCellValue("Дата рождения");
+        
+        Cell ageHeader = headerRow.createCell(2);
+        ageHeader.setCellValue("Возраст");
 
         for (int idx = 0; idx < people.size(); idx++) {
             Person person = people.get(idx);
 
-            Row row = sheet.createRow(idx);
+            Row row = sheet.createRow(idx + 1);
 
             Cell fullName = row.createCell(0);
             fullName.setCellValue(person.toString());
