@@ -1,12 +1,14 @@
-package com.mygenerator.app;
+package com.mygenerator.app.model;
+
+import java.util.Date;
 
 public class Person {
     private String firstName;
     private String lastName;
     private String patronymic;
-    private String birthDate;
+    private Date birthDate;
 
-    public Person(String lastName, String firstName, String patronymic, String birthDate) {
+    public Person(String lastName, String firstName, String patronymic, Date birthDate) {
         this.lastName = lastName;
         this.firstName = firstName;
         this.patronymic = patronymic;
@@ -37,11 +39,11 @@ public class Person {
         this.patronymic = patronymic;
     }
 
-    public String getBirthDate() {
+    public Date getBirthDate() {
         return this.birthDate;
     }
 
-    public void setBirthDate(String birthDate) {
+    public void setBirthDate(Date birthDate) {
         this.birthDate = birthDate;
     }
 

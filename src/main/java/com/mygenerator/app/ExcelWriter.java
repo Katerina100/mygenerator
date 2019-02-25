@@ -6,13 +6,16 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
+
+import com.mygenerator.app.model.Person;
+import com.mygenerator.app.util.RandomBirthDateGenerator;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
@@ -39,20 +42,12 @@ public class ExcelWriter {
 
             Random rand = new Random();
             for (int i = 0; i < 30; i++) {
-                people.add(new Person(
-                    maleLastNames[rand.nextInt(maleLastNames.length)],
-                    maleFirstNames[rand.nextInt(maleFirstNames.length)],
-                    malePatronymics[rand.nextInt(malePatronymics.length)],
-                    "01/29/02"
-                    )
-                );
-                people.add(new Person(
-                    femaleLastNames[rand.nextInt(femaleLastNames.length)],
-                    femaleFirstNames[rand.nextInt(femaleFirstNames.length)],
-                    femalePatronymics[rand.nextInt(femalePatronymics.length)],
-                    "03/11/08"
-                    )
-                );
+                people.add(new Person(maleLastNames[rand.nextInt(maleLastNames.length)],
+                        maleFirstNames[rand.nextInt(maleFirstNames.length)],
+                        malePatronymics[rand.nextInt(malePatronymics.length)], RandomBirthDateGenerator.getNew()));
+                people.add(new Person(femaleLastNames[rand.nextInt(femaleLastNames.length)],
+                        femaleFirstNames[rand.nextInt(femaleFirstNames.length)],
+                        femalePatronymics[rand.nextInt(femalePatronymics.length)], RandomBirthDateGenerator.getNew()));
             }
 
             createSheetContent(book, people);
@@ -65,29 +60,33 @@ public class ExcelWriter {
     }
 
     private static void createSheetContent(Workbook book, List<Person> people) {
-        Sheet sheet = book.createSheet("Generated");
+        Date currentDate = new Date();
+
+        Sheet sheet = book.createSheet("People");
 
         for (int idx = 0; idx < people.size(); idx++) {
+            Person person = people.get(idx);
+
             Row row = sheet.createRow(idx);
 
             Cell fullName = row.createCell(0);
-            fullName.setCellValue(people.get(idx).toString());
-            sheet.autoSizeColumn(0);
+            fullName.setCellValue(person.toString());
 
             Cell birthDate = row.createCell(1);
             DataFormat format = book.createDataFormat();
             CellStyle dateStyle = book.createCellStyle();
             dateStyle.setDataFormat(format.getFormat("dd.mm.yyyy"));
             birthDate.setCellStyle(dateStyle);
-            DateFormat formatter = new SimpleDateFormat("MM/dd/yy");
-            try {
-                Date date = formatter.parse(people.get(idx).getBirthDate());
-                birthDate.setCellValue(date);
-                sheet.autoSizeColumn(1);
-            } catch (ParseException e) {
-                birthDate.setCellValue("Invalid Date");
-                e.printStackTrace();
-            }
+            Date date = person.getBirthDate();
+            birthDate.setCellValue(date);
+
+            Cell age = row.createCell(2);
+            int personAge = Period.between(getLocalDate(person.getBirthDate()), getLocalDate(currentDate)).getYears();
+            age.setCellValue(personAge);
+
+            sheet.autoSizeColumn(0);
+            sheet.autoSizeColumn(1);
+            sheet.autoSizeColumn(2);
         }
     }
 
@@ -97,7 +96,11 @@ public class ExcelWriter {
             resourcesArray = Files.readAllLines(Paths.get(resourceFileName), Charset.forName("UTF-8"));
         } catch (IOException e) {
             e.printStackTrace();
-        } 
+        }
         return resourcesArray.toArray(new String[resourcesArray.size()]);
+    }
+
+    private static LocalDate getLocalDate(Date date) {
+        return date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
     }
 }
