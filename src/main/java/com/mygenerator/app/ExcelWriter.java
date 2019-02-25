@@ -27,25 +27,32 @@ public class ExcelWriter {
         try {
             Workbook book = new XSSFWorkbook();
 
+            String[] maleLastNames = fetchResource("resources/male/maleLastNames.txt");
+            String[] maleFirstNames = fetchResource("resources/male/maleFirstNames.txt");
+            String[] malePatronymics = fetchResource("resources/male/malePatronymics.txt");
+
+            String[] femaleLastNames = fetchResource("resources/female/femaleLastNames.txt");
+            String[] femaleFirstNames = fetchResource("resources/female/femaleFirstNames.txt");
+            String[] femalePatronymics = fetchResource("resources/female/femalePatronymics.txt");
+
             List<Person> people = new ArrayList<Person>();
-
-            List<String> mensLasNames = Files.readAllLines(Paths.get("resources/men/mensLastNames.txt"),
-                    Charset.forName("UTF-8"));
-            String[] mensLastNamesArray = mensLasNames.toArray(new String[mensLasNames.size()]);
-
-            List<String> mensFirstNames = Files.readAllLines(Paths.get("resources/men/mensFirstNames.txt"),
-                    Charset.forName("UTF-8"));
-            String[] mensFirstNamesArray = mensFirstNames.toArray(new String[mensFirstNames.size()]);
-
-            List<String> mensPatronymics = Files.readAllLines(Paths.get("resources/men/mensPatronymics.txt"),
-                    Charset.forName("UTF-8"));
-            String[] mensPatronymicsArray = mensPatronymics.toArray(new String[mensPatronymics.size()]);
 
             Random rand = new Random();
             for (int i = 0; i < 30; i++) {
-                people.add(new Person(mensLastNamesArray[rand.nextInt(mensLastNamesArray.length)],
-                        mensFirstNamesArray[rand.nextInt(mensFirstNamesArray.length)],
-                        mensPatronymicsArray[rand.nextInt(mensPatronymicsArray.length)], "01/29/02"));
+                people.add(new Person(
+                    maleLastNames[rand.nextInt(maleLastNames.length)],
+                    maleFirstNames[rand.nextInt(maleFirstNames.length)],
+                    malePatronymics[rand.nextInt(malePatronymics.length)],
+                    "01/29/02"
+                    )
+                );
+                people.add(new Person(
+                    femaleLastNames[rand.nextInt(femaleLastNames.length)],
+                    femaleFirstNames[rand.nextInt(femaleFirstNames.length)],
+                    femalePatronymics[rand.nextInt(femalePatronymics.length)],
+                    "03/11/08"
+                    )
+                );
             }
 
             createSheetContent(book, people);
@@ -82,5 +89,15 @@ public class ExcelWriter {
                 e.printStackTrace();
             }
         }
+    }
+
+    private static String[] fetchResource(String resourceFileName) {
+        List<String> resourcesArray = new ArrayList<String>();
+        try {
+            resourcesArray = Files.readAllLines(Paths.get(resourceFileName), Charset.forName("UTF-8"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        } 
+        return resourcesArray.toArray(new String[resourcesArray.size()]);
     }
 }
