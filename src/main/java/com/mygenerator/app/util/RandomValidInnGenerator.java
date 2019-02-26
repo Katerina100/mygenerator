@@ -4,8 +4,7 @@ import java.util.Arrays;
 import java.util.Random;
 
 public class RandomValidInnGenerator {
-    public RandomValidInnGenerator() {
-    }
+    private static int[] verificationCoefficientsArray = { 3, 7, 2, 4, 10, 3, 5, 9, 4, 6, 8, 0 };
 
     public static long getNew() {
         int[] arrayedInn = new int[12];
@@ -33,17 +32,15 @@ public class RandomValidInnGenerator {
 
     private static int getInnVerificationDigit(int[] digitsArray) {
         int verificationDigit = 0;
-        if (digitsArray.length == 10) {
-            verificationDigit = ((7 * digitsArray[0]) + (2 * digitsArray[1]) + (4 * digitsArray[2])
-                    + (10 * digitsArray[3]) + (3 * digitsArray[4]) + (5 * digitsArray[5]) + (9 * digitsArray[6])
-                    + (4 * digitsArray[7]) + (6 * digitsArray[8]) + (8 * digitsArray[9])) % 11;
+        int coefStartIndex = digitsArray.length % 10 > 0 ? 0 : 1;
+
+        for (int i = 0; i < digitsArray.length; i++) {
+            verificationDigit += verificationCoefficientsArray[coefStartIndex] * digitsArray[i];
+            coefStartIndex++;
         }
-        if (digitsArray.length == 11) {
-            return ((3 * digitsArray[0]) + (7 * digitsArray[1]) + (2 * digitsArray[2]) + (4 * digitsArray[3])
-                    + (10 * digitsArray[4]) + (3 * digitsArray[5]) + (5 * digitsArray[6]) + (9 * digitsArray[7])
-                    + (4 * digitsArray[8]) + (6 * digitsArray[9]) + (8 * digitsArray[10])) % 11;
-        }
-        verificationDigit = verificationDigit <= 9 ? verificationDigit : verificationDigit % 10;
+
+        verificationDigit = verificationDigit % 11;
+        verificationDigit = verificationDigit > 9 ? verificationDigit % 10 : verificationDigit;
         return verificationDigit;
     }
 }
