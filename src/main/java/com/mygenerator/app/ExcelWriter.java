@@ -16,6 +16,7 @@ import java.util.Random;
 
 import com.mygenerator.app.model.Person;
 import com.mygenerator.app.util.RandomBirthDateGenerator;
+import com.mygenerator.app.util.RandomValidInnGenerator;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
@@ -27,6 +28,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public class ExcelWriter {
     public static void main(String[] args) {
+        
         try {
             Workbook book = new XSSFWorkbook();
 
@@ -44,10 +46,10 @@ public class ExcelWriter {
             for (int i = 0; i < 30; i++) {
                 people.add(new Person(maleLastNames[rand.nextInt(maleLastNames.length)],
                         maleFirstNames[rand.nextInt(maleFirstNames.length)],
-                        malePatronymics[rand.nextInt(malePatronymics.length)], RandomBirthDateGenerator.getNew()));
+                        malePatronymics[rand.nextInt(malePatronymics.length)], RandomBirthDateGenerator.getNew(), RandomValidInnGenerator.getNew()));
                 people.add(new Person(femaleLastNames[rand.nextInt(femaleLastNames.length)],
                         femaleFirstNames[rand.nextInt(femaleFirstNames.length)],
-                        femalePatronymics[rand.nextInt(femalePatronymics.length)], RandomBirthDateGenerator.getNew()));
+                        femalePatronymics[rand.nextInt(femalePatronymics.length)], RandomBirthDateGenerator.getNew(), RandomValidInnGenerator.getNew()));
             }
 
             createSheetContent(book, people);
@@ -75,6 +77,9 @@ public class ExcelWriter {
         Cell ageHeader = headerRow.createCell(2);
         ageHeader.setCellValue("Возраст");
 
+        Cell innHeader = headerRow.createCell(3);
+        innHeader.setCellValue("ИНН");
+
         for (int idx = 0; idx < people.size(); idx++) {
             Person person = people.get(idx);
 
@@ -95,9 +100,13 @@ public class ExcelWriter {
             int personAge = Period.between(getLocalDate(person.getBirthDate()), getLocalDate(currentDate)).getYears();
             age.setCellValue(personAge);
 
+            Cell inn = row.createCell(3);
+            inn.setCellValue(person.getInn());
+
             sheet.autoSizeColumn(0);
             sheet.autoSizeColumn(1);
             sheet.autoSizeColumn(2);
+            sheet.autoSizeColumn(3);
         }
     }
 
