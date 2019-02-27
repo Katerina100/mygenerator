@@ -14,8 +14,9 @@ public class Person {
     private String street;
     private int house;
     private int flat;
+    private int index;
 
-    public Person(String lastName, String firstName, String patronymic, Date birthDate, long inn, String country, String region, String city, String street, int house, int flat) {
+    public Person(String lastName, String firstName, String patronymic, Date birthDate, long inn, String country, String region, String city, String street, int house, int flat, int index) {
         this.lastName = lastName;
         this.firstName = firstName;
         this.patronymic = patronymic;
@@ -27,6 +28,8 @@ public class Person {
         this.street = street;
         this.house = house;
         this.flat = flat;
+        this.index = index;
+
     }
 
     public String getLastName() {
@@ -115,6 +118,14 @@ public class Person {
 
     public void setFlat(int flat) {
         this.flat = flat;
+    }
+
+    public int getIndex() {
+        return this.index;
+    }
+
+    public void setIndex(int index) {
+        this.index = index;
     }
 
 

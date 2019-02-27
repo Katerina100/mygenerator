@@ -19,6 +19,7 @@ import com.mygenerator.app.util.RandomBirthDateGenerator;
 import com.mygenerator.app.util.RandomValidInnGenerator;
 import com.mygenerator.app.util.RandomHouseGenerator;
 import com.mygenerator.app.util.RandomFlatGenerator;
+import com.mygenerator.app.util.RandomIndexGenerator;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
@@ -53,10 +54,16 @@ public class ExcelWriter {
             for (int i = 0; i < 30; i++) {
                 people.add(new Person(maleLastNames[rand.nextInt(maleLastNames.length)],
                         maleFirstNames[rand.nextInt(maleFirstNames.length)],
-                        malePatronymics[rand.nextInt(malePatronymics.length)], RandomBirthDateGenerator.getNew(), RandomValidInnGenerator.getNew(), peopleCountry[rand.nextInt(peopleCountry.length)], peopleRegion[rand.nextInt(peopleRegion.length)], peopleCity[rand.nextInt(peopleCity.length)], peopleStreet[rand.nextInt(peopleStreet.length)],RandomHouseGenerator.getNew(), RandomFlatGenerator.getNew()));
+                        malePatronymics[rand.nextInt(malePatronymics.length)], RandomBirthDateGenerator.getNew(), RandomValidInnGenerator.getNew(),
+                        peopleCountry[rand.nextInt(peopleCountry.length)], peopleRegion[rand.nextInt(peopleRegion.length)],
+                        peopleCity[rand.nextInt(peopleCity.length)], peopleStreet[rand.nextInt(peopleStreet.length)],
+                        RandomHouseGenerator.getNew(), RandomFlatGenerator.getNew(), RandomIndexGenerator.getNew()));
                 people.add(new Person(femaleLastNames[rand.nextInt(femaleLastNames.length)],
                         femaleFirstNames[rand.nextInt(femaleFirstNames.length)],
-                        femalePatronymics[rand.nextInt(femalePatronymics.length)], RandomBirthDateGenerator.getNew(), RandomValidInnGenerator.getNew(), peopleCountry[rand.nextInt(peopleCountry.length)], peopleRegion[rand.nextInt(peopleRegion.length)], peopleCity[rand.nextInt(peopleCity.length)], peopleStreet[rand.nextInt(peopleStreet.length)],RandomHouseGenerator.getNew(), RandomFlatGenerator.getNew()));
+                        femalePatronymics[rand.nextInt(femalePatronymics.length)], RandomBirthDateGenerator.getNew(), RandomValidInnGenerator.getNew(),
+                        peopleCountry[rand.nextInt(peopleCountry.length)], peopleRegion[rand.nextInt(peopleRegion.length)],
+                        peopleCity[rand.nextInt(peopleCity.length)], peopleStreet[rand.nextInt(peopleStreet.length)],
+                        RandomHouseGenerator.getNew(), RandomFlatGenerator.getNew(), RandomIndexGenerator.getNew()));
             }
 
             createSheetContent(book, people);
@@ -105,6 +112,9 @@ public class ExcelWriter {
         Cell flatHeader = headerRow.createCell(9);
         flatHeader.setCellValue("Квартира");
 
+        Cell indexHeader = headerRow.createCell(10);
+        indexHeader.setCellValue("Индекс");
+
         for (int idx = 0; idx < people.size(); idx++) {
             Person person = people.get(idx);
 
@@ -146,6 +156,9 @@ public class ExcelWriter {
             Cell flat = row.createCell(9);
             flat.setCellValue(person.getFlat());
 
+            Cell index = row.createCell(10);
+            index.setCellValue(person.getIndex());
+
             sheet.autoSizeColumn(0);
             sheet.autoSizeColumn(1);
             sheet.autoSizeColumn(2);
@@ -156,6 +169,7 @@ public class ExcelWriter {
             sheet.autoSizeColumn(7);
             sheet.autoSizeColumn(8);
             sheet.autoSizeColumn(9);
+            sheet.autoSizeColumn(10);
         }
     }
 
