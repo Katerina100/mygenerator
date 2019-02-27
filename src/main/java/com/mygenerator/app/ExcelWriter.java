@@ -40,16 +40,18 @@ public class ExcelWriter {
             String[] femaleFirstNames = fetchResource("resources/female/femaleFirstNames.txt");
             String[] femalePatronymics = fetchResource("resources/female/femalePatronymics.txt");
 
+            String[] peopleCountry = fetchResource("resources/people/peopleCountry.txt");
+
             List<Person> people = new ArrayList<Person>();
 
             Random rand = new Random();
             for (int i = 0; i < 30; i++) {
                 people.add(new Person(maleLastNames[rand.nextInt(maleLastNames.length)],
                         maleFirstNames[rand.nextInt(maleFirstNames.length)],
-                        malePatronymics[rand.nextInt(malePatronymics.length)], RandomBirthDateGenerator.getNew(), RandomValidInnGenerator.getNew()));
+                        malePatronymics[rand.nextInt(malePatronymics.length)], RandomBirthDateGenerator.getNew(), RandomValidInnGenerator.getNew(), peopleCountry[rand.nextInt(peopleCountry.length)]));
                 people.add(new Person(femaleLastNames[rand.nextInt(femaleLastNames.length)],
                         femaleFirstNames[rand.nextInt(femaleFirstNames.length)],
-                        femalePatronymics[rand.nextInt(femalePatronymics.length)], RandomBirthDateGenerator.getNew(), RandomValidInnGenerator.getNew()));
+                        femalePatronymics[rand.nextInt(femalePatronymics.length)], RandomBirthDateGenerator.getNew(), RandomValidInnGenerator.getNew(), peopleCountry[rand.nextInt(peopleCountry.length)]));
             }
 
             createSheetContent(book, people);
@@ -80,6 +82,9 @@ public class ExcelWriter {
         Cell innHeader = headerRow.createCell(3);
         innHeader.setCellValue("ИНН");
 
+        Cell countryHeader = headerRow.createCell(4);
+        countryHeader.setCellValue("Страна");
+
         for (int idx = 0; idx < people.size(); idx++) {
             Person person = people.get(idx);
 
@@ -103,10 +108,14 @@ public class ExcelWriter {
             Cell inn = row.createCell(3);
             inn.setCellValue(person.getInn());
 
+            Cell country = row.createCell(4);
+            country.setCellValue(person.getCountry());
+
             sheet.autoSizeColumn(0);
             sheet.autoSizeColumn(1);
             sheet.autoSizeColumn(2);
             sheet.autoSizeColumn(3);
+            sheet.autoSizeColumn(4);
         }
     }
 

@@ -8,13 +8,15 @@ public class Person {
     private String patronymic;
     private Date birthDate;
     private long inn;
+    private String country;
 
-    public Person(String lastName, String firstName, String patronymic, Date birthDate, long inn) {
+    public Person(String lastName, String firstName, String patronymic, Date birthDate, long inn, String country) {
         this.lastName = lastName;
         this.firstName = firstName;
         this.patronymic = patronymic;
         this.birthDate = birthDate;
         this.inn = inn;
+        this.country = country;
     }
 
     public String getLastName() {
@@ -56,6 +58,16 @@ public class Person {
     public void setInn(long inn) {
         this.inn = inn;
     }
+
+    public String getCountry() {
+        return this.country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+
 
     @Override
     public String toString() {
