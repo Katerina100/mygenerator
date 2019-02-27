@@ -41,6 +41,9 @@ public class ExcelWriter {
             String[] femalePatronymics = fetchResource("resources/female/femalePatronymics.txt");
 
             String[] peopleCountry = fetchResource("resources/people/peopleCountry.txt");
+            String[] peopleRegion = fetchResource("resources/people/peopleRegion.txt");
+            String[] peopleCity = fetchResource("resources/people/peopleCity.txt");
+            String[] peopleStreet = fetchResource("resources/people/peopleStreet.txt");
 
             List<Person> people = new ArrayList<Person>();
 
@@ -48,10 +51,10 @@ public class ExcelWriter {
             for (int i = 0; i < 30; i++) {
                 people.add(new Person(maleLastNames[rand.nextInt(maleLastNames.length)],
                         maleFirstNames[rand.nextInt(maleFirstNames.length)],
-                        malePatronymics[rand.nextInt(malePatronymics.length)], RandomBirthDateGenerator.getNew(), RandomValidInnGenerator.getNew(), peopleCountry[rand.nextInt(peopleCountry.length)]));
+                        malePatronymics[rand.nextInt(malePatronymics.length)], RandomBirthDateGenerator.getNew(), RandomValidInnGenerator.getNew(), peopleCountry[rand.nextInt(peopleCountry.length)], peopleRegion[rand.nextInt(peopleRegion.length)], peopleCity[rand.nextInt(peopleCity.length)], peopleStreet[rand.nextInt(peopleStreet.length)]));
                 people.add(new Person(femaleLastNames[rand.nextInt(femaleLastNames.length)],
                         femaleFirstNames[rand.nextInt(femaleFirstNames.length)],
-                        femalePatronymics[rand.nextInt(femalePatronymics.length)], RandomBirthDateGenerator.getNew(), RandomValidInnGenerator.getNew(), peopleCountry[rand.nextInt(peopleCountry.length)]));
+                        femalePatronymics[rand.nextInt(femalePatronymics.length)], RandomBirthDateGenerator.getNew(), RandomValidInnGenerator.getNew(), peopleCountry[rand.nextInt(peopleCountry.length)], peopleRegion[rand.nextInt(peopleRegion.length)], peopleCity[rand.nextInt(peopleCity.length)], peopleStreet[rand.nextInt(peopleStreet.length)]));
             }
 
             createSheetContent(book, people);
@@ -85,6 +88,15 @@ public class ExcelWriter {
         Cell countryHeader = headerRow.createCell(4);
         countryHeader.setCellValue("Страна");
 
+        Cell regionHeader = headerRow.createCell(5);
+        regionHeader.setCellValue("Область");
+
+        Cell cityHeader = headerRow.createCell(6);
+        cityHeader.setCellValue("Город");
+
+        Cell streetHeader = headerRow.createCell(7);
+        streetHeader.setCellValue("Улица");
+
         for (int idx = 0; idx < people.size(); idx++) {
             Person person = people.get(idx);
 
@@ -111,11 +123,23 @@ public class ExcelWriter {
             Cell country = row.createCell(4);
             country.setCellValue(person.getCountry());
 
+            Cell region = row.createCell(5);
+            region.setCellValue(person.getRegion());
+
+            Cell city = row.createCell(6);
+            city.setCellValue(person.getCity());
+
+            Cell street = row.createCell(7);
+            street.setCellValue(person.getStreet());
+
             sheet.autoSizeColumn(0);
             sheet.autoSizeColumn(1);
             sheet.autoSizeColumn(2);
             sheet.autoSizeColumn(3);
             sheet.autoSizeColumn(4);
+            sheet.autoSizeColumn(5);
+            sheet.autoSizeColumn(6);
+            sheet.autoSizeColumn(7);
         }
     }
 

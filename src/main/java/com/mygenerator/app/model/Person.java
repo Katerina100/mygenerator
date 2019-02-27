@@ -9,14 +9,20 @@ public class Person {
     private Date birthDate;
     private long inn;
     private String country;
+    private String region;
+    private String city;
+    private String street;
 
-    public Person(String lastName, String firstName, String patronymic, Date birthDate, long inn, String country) {
+    public Person(String lastName, String firstName, String patronymic, Date birthDate, long inn, String country, String region, String city, String street) {
         this.lastName = lastName;
         this.firstName = firstName;
         this.patronymic = patronymic;
         this.birthDate = birthDate;
         this.inn = inn;
         this.country = country;
+        this.city = city;
+        this.region = region;
+        this.street = street;
     }
 
     public String getLastName() {
@@ -67,6 +73,29 @@ public class Person {
         this.country = country;
     }
 
+    public String getRegion() {
+        return this.region;
+    }
+
+    public void setRegion(String region) {
+        this.region = region;
+    }
+
+    public String getCity() {
+        return this.city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getStreet() {
+        return this.street;
+    }
+
+    public void setStreet(String street) {
+        this.street = street;
+    }
 
 
     @Override
