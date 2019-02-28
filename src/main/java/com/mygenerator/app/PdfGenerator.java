@@ -8,6 +8,7 @@ import java.util.List;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
+import org.apache.pdfbox.pdmodel.common.PDRectangle;
 import org.apache.pdfbox.pdmodel.font.PDFont;
 import org.apache.pdfbox.pdmodel.font.PDType0Font;
 import org.apache.poi.ss.usermodel.Cell;
@@ -21,20 +22,25 @@ public class PdfGenerator {
     public static void generate(String xlsFileAbsolutePath) {
         try {
             PDDocument document = new PDDocument();
-            PDPage page = new PDPage();
+            float pageWidth = 11.7f * 72;
+            float pageHeight = 8.3f * 72;
+            PDPage page = new PDPage(new PDRectangle(pageWidth, pageHeight));
             document.addPage(page);
 
             PDPageContentStream contentStream = new PDPageContentStream(document, page);
             PDFont font = PDType0Font.load(document, new File("resources/fonts/DejaVuSans.ttf"));
-            contentStream.setFont(font, 12);
+            contentStream.setFont(font, 10);
 
             File excelFile = new File(xlsFileAbsolutePath);
             Workbook workBook = WorkbookFactory.create(excelFile);
             Sheet sheet = workBook.getSheetAt(0);
             DataFormatter formatter = new DataFormatter();
 
-            for (int rn = 0; rn <= sheet.getLastRowNum(); rn++) {
-                contentStream.beginText();
+            contentStream.beginText();
+            contentStream.newLineAtOffset(25, pageHeight - 25);
+            contentStream.setLeading(14.5f);
+
+            for (int rn = 1; rn <= sheet.getLastRowNum(); rn++) {
 
                 Row row = sheet.getRow(rn);
                 List<String> values = new ArrayList<String>();
@@ -46,15 +52,20 @@ public class PdfGenerator {
                     }
                     values.add(val);
                 }
-                for (String item : values) {
-                    contentStream.showText(item);
+                for (int j = 0; j < values.size(); j++) {
+                    contentStream.showText(values.get(j));
+                    if (j < values.size() - 1) {
+                        contentStream.showText("  |  ");
+                    }
                 }
-                contentStream.endText();
+                contentStream.newLine();
             }
 
-            workBook.close();
+            contentStream.endText();
 
             contentStream.close();
+
+            workBook.close();
 
             File pdfFile = new File("people.pdf");
             document.save(pdfFile);

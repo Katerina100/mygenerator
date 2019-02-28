@@ -79,10 +79,12 @@ public class ExcelWriter {
 
             book.close();
 
+            System.out.printf("Сгенерирован список из %s записей%n", people.size());
+
             System.out.printf("Создан XLSX файл: %s%n", xlsFile.getAbsolutePath());
 
             PdfGenerator.generate(xlsFile.getAbsolutePath());
-            
+
         } catch (IOException e) {
             e.printStackTrace();
         }
