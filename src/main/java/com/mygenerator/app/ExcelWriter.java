@@ -31,7 +31,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public class ExcelWriter {
     public static void main(String[] args) {
-        
+
         try {
             Workbook book = new XSSFWorkbook();
 
@@ -51,6 +51,7 @@ public class ExcelWriter {
             List<Person> people = new ArrayList<Person>();
 
             Random rand = new Random();
+
             for (int i = 0; i < 30; i++) {
                 people.add(new Person(maleLastNames[rand.nextInt(maleLastNames.length)],
                         maleFirstNames[rand.nextInt(maleFirstNames.length)],
@@ -69,10 +70,16 @@ public class ExcelWriter {
             createSheetContent(book, people);
 
             book.write(new FileOutputStream(new File("people.xlsx")));
+
             book.close();
+
+
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        System.out.println("Файл создан. Путь: people.xlsx ");
+
     }
 
     private static void createSheetContent(Workbook book, List<Person> people) {
@@ -188,3 +195,4 @@ public class ExcelWriter {
     }
 
 }
+
