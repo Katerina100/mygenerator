@@ -19,5 +19,4 @@ public class RandomBirthDateGenerator {
     private static int randBetween(int start, int end) {
         return start + (int) Math.round(Math.random() * (end - start));
     }
-
 }

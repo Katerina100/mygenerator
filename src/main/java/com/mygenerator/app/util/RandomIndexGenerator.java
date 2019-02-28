@@ -3,10 +3,9 @@ package com.mygenerator.app.util;
 import java.util.Random;
 
 public class RandomIndexGenerator {
-    public static int getNew() {
-        int num;
+    public static String getNew() {
         Random rand = new Random();
-        num = 100000 + rand.nextInt(200000 - 100000 + 1);
-        return num;
+        int number = rand.nextInt(999999);
+        return String.format("%06d", number);
     }
 }

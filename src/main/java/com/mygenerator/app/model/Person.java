@@ -14,9 +14,10 @@ public class Person {
     private String street;
     private int house;
     private int flat;
-    private int index;
+    private String index;
 
-    public Person(String lastName, String firstName, String patronymic, Date birthDate, long inn, String country, String region, String city, String street, int house, int flat, int index) {
+    public Person(String lastName, String firstName, String patronymic, Date birthDate, long inn, String country,
+            String region, String city, String street, int house, int flat, String index) {
         this.lastName = lastName;
         this.firstName = firstName;
         this.patronymic = patronymic;
@@ -120,14 +121,13 @@ public class Person {
         this.flat = flat;
     }
 
-    public int getIndex() {
+    public String getIndex() {
         return this.index;
     }
 
-    public void setIndex(int index) {
+    public void setIndex(String index) {
         this.index = index;
     }
-
 
     @Override
     public String toString() {

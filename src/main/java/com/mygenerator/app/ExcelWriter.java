@@ -16,25 +16,24 @@ import java.util.Random;
 
 import com.mygenerator.app.model.Person;
 import com.mygenerator.app.util.RandomBirthDateGenerator;
-import com.mygenerator.app.util.RandomValidInnGenerator;
-import com.mygenerator.app.util.RandomHouseGenerator;
-import com.mygenerator.app.util.RandomFlatGenerator;
 import com.mygenerator.app.util.RandomIndexGenerator;
-import com.mygenerator.app.util.RandomQuantGenerator;
+import com.mygenerator.app.util.RandomValidInnGenerator;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.DataFormat;
+import org.apache.poi.ss.usermodel.Font;
+import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFFont;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public class ExcelWriter {
     public static void main(String[] args) {
 
         try {
-            Workbook book = new XSSFWorkbook();
+            XSSFWorkbook book = new XSSFWorkbook();
 
             String[] maleLastNames = fetchResource("resources/male/maleLastNames.txt");
             String[] maleFirstNames = fetchResource("resources/male/maleFirstNames.txt");
@@ -53,49 +52,56 @@ public class ExcelWriter {
 
             Random rand = new Random();
 
-            for (int i = 0; i < RandomQuantGenerator.getNew(); i++) {
+            for (int i = 0; i < (rand.nextInt(14) + 1); i++) {
+
                 people.add(new Person(maleLastNames[rand.nextInt(maleLastNames.length)],
                         maleFirstNames[rand.nextInt(maleFirstNames.length)],
-                        malePatronymics[rand.nextInt(malePatronymics.length)], RandomBirthDateGenerator.getNew(), RandomValidInnGenerator.getNew(),
-                        peopleCountry[rand.nextInt(peopleCountry.length)], peopleRegion[rand.nextInt(peopleRegion.length)],
-                        peopleCity[rand.nextInt(peopleCity.length)], peopleStreet[rand.nextInt(peopleStreet.length)],
-                        RandomHouseGenerator.getNew(), RandomFlatGenerator.getNew(), RandomIndexGenerator.getNew()));
+                        malePatronymics[rand.nextInt(malePatronymics.length)], RandomBirthDateGenerator.getNew(),
+                        RandomValidInnGenerator.getNew(), peopleCountry[rand.nextInt(peopleCountry.length)],
+                        peopleRegion[rand.nextInt(peopleRegion.length)], peopleCity[rand.nextInt(peopleCity.length)],
+                        peopleStreet[rand.nextInt(peopleStreet.length)], rand.nextInt(29) + 1, rand.nextInt(499) + 1,
+                        RandomIndexGenerator.getNew()));
+
                 people.add(new Person(femaleLastNames[rand.nextInt(femaleLastNames.length)],
                         femaleFirstNames[rand.nextInt(femaleFirstNames.length)],
-                        femalePatronymics[rand.nextInt(femalePatronymics.length)], RandomBirthDateGenerator.getNew(), RandomValidInnGenerator.getNew(),
-                        peopleCountry[rand.nextInt(peopleCountry.length)], peopleRegion[rand.nextInt(peopleRegion.length)],
-                        peopleCity[rand.nextInt(peopleCity.length)], peopleStreet[rand.nextInt(peopleStreet.length)],
-                        RandomHouseGenerator.getNew(), RandomFlatGenerator.getNew(), RandomIndexGenerator.getNew()));
+                        femalePatronymics[rand.nextInt(femalePatronymics.length)], RandomBirthDateGenerator.getNew(),
+                        RandomValidInnGenerator.getNew(), peopleCountry[rand.nextInt(peopleCountry.length)],
+                        peopleRegion[rand.nextInt(peopleRegion.length)], peopleCity[rand.nextInt(peopleCity.length)],
+                        peopleStreet[rand.nextInt(peopleStreet.length)], rand.nextInt(29) + 1, rand.nextInt(499) + 1,
+                        RandomIndexGenerator.getNew()));
             }
 
             createSheetContent(book, people);
 
-            book.write(new FileOutputStream(new File("people.xlsx")));
+            File xlsFile = new File("people.xlsx");
+
+            book.write(new FileOutputStream(xlsFile));
 
             book.close();
 
+            System.out.printf("Файл создан. Путь: %s%n", xlsFile.getAbsolutePath());
 
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        System.out.println("Файл создан. Путь: people.xlsx ");
-
     }
 
-    private static void createSheetContent(Workbook book, List<Person> people) {
+    private static void createSheetContent(XSSFWorkbook book, List<Person> people) {
         Date currentDate = new Date();
 
         Sheet sheet = book.createSheet("Список людей");
-        
+
+        XSSFFont headerFont = book.createFont();
+        headerFont.setBold(true);
+
         Row headerRow = sheet.createRow(0);
-        
+
         Cell fullNameHeader = headerRow.createCell(0);
         fullNameHeader.setCellValue("ФИО");
-        
+
         Cell birthDateHeader = headerRow.createCell(1);
         birthDateHeader.setCellValue("Дата рождения");
-        
+
         Cell ageHeader = headerRow.createCell(2);
         ageHeader.setCellValue("Возраст");
 
@@ -167,6 +173,8 @@ public class ExcelWriter {
             Cell index = row.createCell(10);
             index.setCellValue(person.getIndex());
 
+            makeRowBoldCenter(book, headerRow);
+
             sheet.autoSizeColumn(0);
             sheet.autoSizeColumn(1);
             sheet.autoSizeColumn(2);
@@ -178,6 +186,17 @@ public class ExcelWriter {
             sheet.autoSizeColumn(8);
             sheet.autoSizeColumn(9);
             sheet.autoSizeColumn(10);
+        }
+    }
+
+    private static void makeRowBoldCenter(XSSFWorkbook book, Row row) {
+        CellStyle style = book.createCellStyle();
+        Font font = book.createFont();
+        font.setBold(true);
+        style.setAlignment(HorizontalAlignment.CENTER);
+        style.setFont(font);
+        for (int i = 0; i < row.getLastCellNum(); i++) {
+            row.getCell(i).setCellStyle(style);
         }
     }
 
@@ -196,4 +215,3 @@ public class ExcelWriter {
     }
 
 }
-
