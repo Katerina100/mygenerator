@@ -79,8 +79,10 @@ public class ExcelWriter {
 
             book.close();
 
-            System.out.printf("Файл создан. Путь: %s%n", xlsFile.getAbsolutePath());
+            System.out.printf("Создан XLSX файл: %s%n", xlsFile.getAbsolutePath());
 
+            PdfGenerator.generate(xlsFile.getAbsolutePath());
+            
         } catch (IOException e) {
             e.printStackTrace();
         }
