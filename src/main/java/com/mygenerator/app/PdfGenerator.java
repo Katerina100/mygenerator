@@ -22,8 +22,8 @@ public class PdfGenerator {
     public static void generate(String xlsFileAbsolutePath) {
         try {
             PDDocument document = new PDDocument();
-            float pageWidth = 11.7f * 72;
-            float pageHeight = 8.3f * 72;
+            float pageWidth = 12f * 72;
+            float pageHeight = 8f * 72;
             PDPage page = new PDPage(new PDRectangle(pageWidth, pageHeight));
             document.addPage(page);
 
@@ -37,7 +37,7 @@ public class PdfGenerator {
             DataFormatter formatter = new DataFormatter();
 
             contentStream.beginText();
-            contentStream.newLineAtOffset(25, pageHeight - 25);
+            contentStream.newLineAtOffset(20, pageHeight - 25);
             contentStream.setLeading(14.5f);
 
             for (int rn = 1; rn <= sheet.getLastRowNum(); rn++) {

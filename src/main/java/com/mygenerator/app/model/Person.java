@@ -7,7 +7,7 @@ public class Person {
     private String lastName;
     private String patronymic;
     private Date birthDate;
-    private long inn;
+    private String inn;
     private String country;
     private String region;
     private String city;
@@ -16,7 +16,7 @@ public class Person {
     private int flat;
     private String index;
 
-    public Person(String lastName, String firstName, String patronymic, Date birthDate, long inn, String country,
+    public Person(String lastName, String firstName, String patronymic, Date birthDate, String inn, String country,
             String region, String city, String street, int house, int flat, String index) {
         this.lastName = lastName;
         this.firstName = firstName;
@@ -65,11 +65,11 @@ public class Person {
         this.birthDate = birthDate;
     }
 
-    public long getInn() {
+    public String getInn() {
         return this.inn;
     }
 
-    public void setInn(long inn) {
+    public void setInn(String inn) {
         this.inn = inn;
     }
 

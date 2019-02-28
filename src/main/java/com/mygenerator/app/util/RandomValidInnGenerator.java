@@ -6,7 +6,7 @@ import java.util.Random;
 public class RandomValidInnGenerator {
     private static int[] verificationCoefficientsArray = { 3, 7, 2, 4, 10, 3, 5, 9, 4, 6, 8, 0 };
 
-    public static long getNew() {
+    public static String getNew() {
         int[] arrayedInn = new int[12];
 
         arrayedInn[0] = 7;
@@ -27,7 +27,7 @@ public class RandomValidInnGenerator {
             stringedInn.append(digit);
         }
 
-        return Long.parseLong(stringedInn.toString());
+        return stringedInn.toString();
     }
 
     private static int getInnVerificationDigit(int[] digitsArray) {
