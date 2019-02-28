@@ -20,6 +20,7 @@ import com.mygenerator.app.util.RandomValidInnGenerator;
 import com.mygenerator.app.util.RandomHouseGenerator;
 import com.mygenerator.app.util.RandomFlatGenerator;
 import com.mygenerator.app.util.RandomIndexGenerator;
+import com.mygenerator.app.util.RandomQuantGenerator;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
@@ -52,7 +53,7 @@ public class ExcelWriter {
 
             Random rand = new Random();
 
-            for (int i = 0; i < 30; i++) {
+            for (int i = 0; i < RandomQuantGenerator.getNew(); i++) {
                 people.add(new Person(maleLastNames[rand.nextInt(maleLastNames.length)],
                         maleFirstNames[rand.nextInt(maleFirstNames.length)],
                         malePatronymics[rand.nextInt(malePatronymics.length)], RandomBirthDateGenerator.getNew(), RandomValidInnGenerator.getNew(),
