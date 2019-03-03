@@ -52,7 +52,13 @@ public class ExcelWriter {
 
             Random rand = new Random();
 
-            for (int i = 0; i < (rand.nextInt(14) + 1); i++) {
+            int qnt = rand.nextInt(29) + 1;
+
+            int qnt1 = rand.nextInt(qnt);
+
+            int qnt2 = qnt - qnt1;
+
+            for (int i = 0; i < qnt1; i++) {
 
                 people.add(new Person(maleLastNames[rand.nextInt(maleLastNames.length)],
                         maleFirstNames[rand.nextInt(maleFirstNames.length)],
@@ -61,6 +67,10 @@ public class ExcelWriter {
                         peopleRegion[rand.nextInt(peopleRegion.length)], peopleCity[rand.nextInt(peopleCity.length)],
                         peopleStreet[rand.nextInt(peopleStreet.length)], rand.nextInt(29) + 1, rand.nextInt(499) + 1,
                         RandomIndexGenerator.getNew()));
+            }
+
+
+            for (int i = 0; i < qnt2; i++) {
 
                 people.add(new Person(femaleLastNames[rand.nextInt(femaleLastNames.length)],
                         femaleFirstNames[rand.nextInt(femaleFirstNames.length)],
