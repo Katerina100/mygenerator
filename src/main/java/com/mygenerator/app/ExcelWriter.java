@@ -35,18 +35,18 @@ public class ExcelWriter {
         try {
             XSSFWorkbook book = new XSSFWorkbook();
 
-            String[] maleLastNames = fetchResource("resources/male/maleLastNames.txt");
-            String[] maleFirstNames = fetchResource("resources/male/maleFirstNames.txt");
-            String[] malePatronymics = fetchResource("resources/male/malePatronymics.txt");
+            String[] maleLastNames = fetchResource("src/main/resources/male/maleLastNames.txt");
+            String[] maleFirstNames = fetchResource("src/main/resources/male/maleFirstNames.txt");
+            String[] malePatronymics = fetchResource("src/main/resources/male/malePatronymics.txt");
 
-            String[] femaleLastNames = fetchResource("resources/female/femaleLastNames.txt");
-            String[] femaleFirstNames = fetchResource("resources/female/femaleFirstNames.txt");
-            String[] femalePatronymics = fetchResource("resources/female/femalePatronymics.txt");
+            String[] femaleLastNames = fetchResource("src/main/resources/female/femaleLastNames.txt");
+            String[] femaleFirstNames = fetchResource("src/main/resources/female/femaleFirstNames.txt");
+            String[] femalePatronymics = fetchResource("src/main/resources/female/femalePatronymics.txt");
 
-            String[] peopleCountry = fetchResource("resources/people/peopleCountry.txt");
-            String[] peopleRegion = fetchResource("resources/people/peopleRegion.txt");
-            String[] peopleCity = fetchResource("resources/people/peopleCity.txt");
-            String[] peopleStreet = fetchResource("resources/people/peopleStreet.txt");
+            String[] peopleCountry = fetchResource("src/main/resources/people/peopleCountry.txt");
+            String[] peopleRegion = fetchResource("src/main/resources/people/peopleRegion.txt");
+            String[] peopleCity = fetchResource("src/main/resources/people/peopleCity.txt");
+            String[] peopleStreet = fetchResource("src/main/resources/people/peopleStreet.txt");
 
             List<Person> people = new ArrayList<Person>();
 

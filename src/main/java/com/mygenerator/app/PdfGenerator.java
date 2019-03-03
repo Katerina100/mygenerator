@@ -28,7 +28,7 @@ public class PdfGenerator {
             document.addPage(page);
 
             PDPageContentStream contentStream = new PDPageContentStream(document, page);
-            PDFont font = PDType0Font.load(document, new File("resources/fonts/DejaVuSans.ttf"));
+            PDFont font = PDType0Font.load(document, new File("src/main/resources/fonts/DejaVuSans.ttf"));
             contentStream.setFont(font, 10);
 
             File excelFile = new File(xlsFileAbsolutePath);
