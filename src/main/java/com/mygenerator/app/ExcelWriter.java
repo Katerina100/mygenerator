@@ -62,11 +62,10 @@ public class ExcelWriter {
 
                 people.add(new Person(maleLastNames[rand.nextInt(maleLastNames.length)],
                         maleFirstNames[rand.nextInt(maleFirstNames.length)],
-                        malePatronymics[rand.nextInt(malePatronymics.length)], RandomBirthDateGenerator.getNew(),
-                        RandomValidInnGenerator.getNew(), peopleCountry[rand.nextInt(peopleCountry.length)],
+                        malePatronymics[rand.nextInt(malePatronymics.length)],"м", RandomBirthDateGenerator.getNew(),
+                        RandomValidInnGenerator.getNew(), RandomIndexGenerator.getNew(), peopleCountry[rand.nextInt(peopleCountry.length)],
                         peopleRegion[rand.nextInt(peopleRegion.length)], peopleCity[rand.nextInt(peopleCity.length)],
-                        peopleStreet[rand.nextInt(peopleStreet.length)], rand.nextInt(29) + 1, rand.nextInt(499) + 1,
-                        RandomIndexGenerator.getNew()));
+                        peopleStreet[rand.nextInt(peopleStreet.length)], rand.nextInt(29) + 1, rand.nextInt(499) + 1));
             }
 
 
@@ -74,11 +73,10 @@ public class ExcelWriter {
 
                 people.add(new Person(femaleLastNames[rand.nextInt(femaleLastNames.length)],
                         femaleFirstNames[rand.nextInt(femaleFirstNames.length)],
-                        femalePatronymics[rand.nextInt(femalePatronymics.length)], RandomBirthDateGenerator.getNew(),
-                        RandomValidInnGenerator.getNew(), peopleCountry[rand.nextInt(peopleCountry.length)],
+                        femalePatronymics[rand.nextInt(femalePatronymics.length)],"ж", RandomBirthDateGenerator.getNew(),
+                        RandomValidInnGenerator.getNew(),RandomIndexGenerator.getNew(), peopleCountry[rand.nextInt(peopleCountry.length)],
                         peopleRegion[rand.nextInt(peopleRegion.length)], peopleCity[rand.nextInt(peopleCity.length)],
-                        peopleStreet[rand.nextInt(peopleStreet.length)], rand.nextInt(29) + 1, rand.nextInt(499) + 1,
-                        RandomIndexGenerator.getNew()));
+                        peopleStreet[rand.nextInt(peopleStreet.length)], rand.nextInt(29) + 1, rand.nextInt(499) + 1));
             }
 
             createSheetContent(book, people);
@@ -113,35 +111,40 @@ public class ExcelWriter {
         Cell fullNameHeader = headerRow.createCell(0);
         fullNameHeader.setCellValue("ФИО");
 
-        Cell birthDateHeader = headerRow.createCell(1);
-        birthDateHeader.setCellValue("Дата рождения");
-
-        Cell ageHeader = headerRow.createCell(2);
+        Cell ageHeader = headerRow.createCell(1);
         ageHeader.setCellValue("Возраст");
 
-        Cell innHeader = headerRow.createCell(3);
+        Cell sexHeader = headerRow.createCell(2);
+        sexHeader.setCellValue("Пол");
+
+        Cell birthDateHeader = headerRow.createCell(3);
+        birthDateHeader.setCellValue("Дата рождения");
+
+        Cell innHeader = headerRow.createCell(4);
         innHeader.setCellValue("ИНН");
 
-        Cell countryHeader = headerRow.createCell(4);
+        Cell indexHeader = headerRow.createCell(5);
+        indexHeader.setCellValue("Индекс");
+
+        Cell countryHeader = headerRow.createCell(6);
         countryHeader.setCellValue("Страна");
 
-        Cell regionHeader = headerRow.createCell(5);
+        Cell regionHeader = headerRow.createCell(7);
         regionHeader.setCellValue("Область");
 
-        Cell cityHeader = headerRow.createCell(6);
+        Cell cityHeader = headerRow.createCell(8);
         cityHeader.setCellValue("Город");
 
-        Cell streetHeader = headerRow.createCell(7);
+        Cell streetHeader = headerRow.createCell(9);
         streetHeader.setCellValue("Улица");
 
-        Cell houseHeader = headerRow.createCell(8);
+        Cell houseHeader = headerRow.createCell(10);
         houseHeader.setCellValue("Дом");
 
-        Cell flatHeader = headerRow.createCell(9);
+        Cell flatHeader = headerRow.createCell(11);
         flatHeader.setCellValue("Квартира");
 
-        Cell indexHeader = headerRow.createCell(10);
-        indexHeader.setCellValue("Индекс");
+
 
         for (int idx = 0; idx < people.size(); idx++) {
             Person person = people.get(idx);
@@ -151,7 +154,14 @@ public class ExcelWriter {
             Cell fullName = row.createCell(0);
             fullName.setCellValue(person.toString());
 
-            Cell birthDate = row.createCell(1);
+            Cell age = row.createCell(1);
+            int personAge = Period.between(getLocalDate(person.getBirthDate()), getLocalDate(currentDate)).getYears();
+            age.setCellValue(personAge);
+
+            Cell sex = row.createCell(2);
+            sex.setCellValue(person.getSex());
+
+            Cell birthDate = row.createCell(3);
             DataFormat format = book.createDataFormat();
             CellStyle dateStyle = book.createCellStyle();
             dateStyle.setDataFormat(format.getFormat("dd.mm.yyyy"));
@@ -159,33 +169,31 @@ public class ExcelWriter {
             Date date = person.getBirthDate();
             birthDate.setCellValue(date);
 
-            Cell age = row.createCell(2);
-            int personAge = Period.between(getLocalDate(person.getBirthDate()), getLocalDate(currentDate)).getYears();
-            age.setCellValue(personAge);
-
-            Cell inn = row.createCell(3);
+            Cell inn = row.createCell(4);
             inn.setCellValue(person.getInn());
 
-            Cell country = row.createCell(4);
+            Cell index = row.createCell(5);
+            index.setCellValue(person.getIndex());
+
+            Cell country = row.createCell(6);
             country.setCellValue(person.getCountry());
 
-            Cell region = row.createCell(5);
+            Cell region = row.createCell(7);
             region.setCellValue(person.getRegion());
 
-            Cell city = row.createCell(6);
+            Cell city = row.createCell(8);
             city.setCellValue(person.getCity());
 
-            Cell street = row.createCell(7);
+            Cell street = row.createCell(9);
             street.setCellValue(person.getStreet());
 
-            Cell house = row.createCell(8);
+            Cell house = row.createCell(10);
             house.setCellValue(person.getHouse());
 
-            Cell flat = row.createCell(9);
+            Cell flat = row.createCell(11);
             flat.setCellValue(person.getFlat());
 
-            Cell index = row.createCell(10);
-            index.setCellValue(person.getIndex());
+
 
             makeRowBoldCenter(book, headerRow);
 
@@ -200,6 +208,7 @@ public class ExcelWriter {
             sheet.autoSizeColumn(8);
             sheet.autoSizeColumn(9);
             sheet.autoSizeColumn(10);
+            sheet.autoSizeColumn(11);
         }
     }
 
