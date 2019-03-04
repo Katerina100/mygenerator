@@ -194,21 +194,13 @@ public class ExcelWriter {
             flat.setCellValue(person.getFlat());
 
 
-
             makeRowBoldCenter(book, headerRow);
 
-            sheet.autoSizeColumn(0);
-            sheet.autoSizeColumn(1);
-            sheet.autoSizeColumn(2);
-            sheet.autoSizeColumn(3);
-            sheet.autoSizeColumn(4);
-            sheet.autoSizeColumn(5);
-            sheet.autoSizeColumn(6);
-            sheet.autoSizeColumn(7);
-            sheet.autoSizeColumn(8);
-            sheet.autoSizeColumn(9);
-            sheet.autoSizeColumn(10);
-            sheet.autoSizeColumn(11);
+            for (int i = 0; i < 12; i++) {
+
+                sheet.autoSizeColumn(i);
+
+            }
         }
     }
 
