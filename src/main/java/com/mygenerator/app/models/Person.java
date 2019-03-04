@@ -1,4 +1,4 @@
-package com.mygenerator.app.model;
+package com.mygenerator.app.models;
 
 import java.util.Date;
 
@@ -33,8 +33,6 @@ public class Person {
         this.street = street;
         this.house = house;
         this.flat = flat;
-
-
     }
 
     public String getLastName() {
@@ -87,11 +85,8 @@ public class Person {
         return this.flat;
     }
 
-
-
     @Override
     public String toString() {
         return getLastName() + " " + getFirstName() + " " + getPatronymic();
     }
 }
-

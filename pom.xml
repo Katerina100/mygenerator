@@ -100,7 +100,7 @@
               <archive>
               <manifest>
                 <mainClass>
-                  com.mygenerator.app.ExcelWriter
+                  com.mygenerator.app.MyGenerator
                 </mainClass>
               </manifest>
               </archive>

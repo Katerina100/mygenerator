@@ -1,4 +1,4 @@
-package com.mygenerator.app.util;
+package com.mygenerator.app.utils;
 
 import java.util.Date;
 import java.util.GregorianCalendar;
