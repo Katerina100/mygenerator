@@ -2,20 +2,20 @@ package com.mygenerator.app.models;
 
 import java.util.Date;
 
-public class Person {
-    private String firstName;
-    private String lastName;
-    private String patronymic;
-    private String sex;
-    private Date birthDate;
-    private String inn;
-    private String index;
-    private String country;
-    private String region;
-    private String city;
-    private String street;
-    private int house;
-    private int flat;
+public final class Person {
+    private final String firstName;
+    private final String lastName;
+    private final String patronymic;
+    private final String sex;
+    private final Date birthDate;
+    private final String inn;
+    private final String index;
+    private final String country;
+    private final String region;
+    private final String city;
+    private final String street;
+    private final int house;
+    private final int flat;
 
 
     public Person(String lastName, String firstName, String patronymic, String sex, Date birthDate, String inn, String index, String country,
