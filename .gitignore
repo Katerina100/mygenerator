@@ -1,9 +1,9 @@
 target/
 .settings/
-.classpath
 .vscode/
 .idea/
+.project
+.classpath
 **.xls
 **.xlsx
 **.pdf
-.project
