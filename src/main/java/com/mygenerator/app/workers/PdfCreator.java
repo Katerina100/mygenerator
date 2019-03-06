@@ -30,13 +30,13 @@ public class PdfCreator {
     }
 
     public void create(String outPdfFilePathName) {
-        try {
-            PDDocument document = new PDDocument();
-            float pageWidth = 12f * 72;
-            float pageHeight = 8f * 72;
-            PDPage page = new PDPage(new PDRectangle(pageWidth, pageHeight));
-            document.addPage(page);
+        PDDocument document = new PDDocument();
+        float pageWidth = 12f * 72;
+        float pageHeight = 8f * 72;
+        PDPage page = new PDPage(new PDRectangle(pageWidth, pageHeight));
+        document.addPage(page);
 
+        try {
             PDPageContentStream contentStream = new PDPageContentStream(document, page);
             PDFont font = PDType0Font.load(document, new File(FONT_PATH));
             contentStream.setFont(font, 10);
@@ -57,11 +57,18 @@ public class PdfCreator {
 
             File pdfFile = new File(outPdfFilePathName);
             document.save(pdfFile);
-            document.close();
 
             System.out.printf(PDF_FILE_CREATION_CONSOLE_OUTPUT, pdfFile.getAbsolutePath());
         } catch (IOException e) {
             e.printStackTrace();
+        } finally {
+            if (document != null) {
+                try {
+                    document.close();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+            }
         }
     }
 
