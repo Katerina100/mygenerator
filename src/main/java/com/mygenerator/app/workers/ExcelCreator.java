@@ -133,13 +133,17 @@ public class ExcelCreator {
         String[] malePatronymics = StubContentFetcher.get(MALE_PATRONYMICS_STUB);
 
         for (int i = 0; i < qnt1; i++) {
-            people.add(new Person(maleLastNames[rand.nextInt(maleLastNames.length)],
-                    maleFirstNames[rand.nextInt(maleFirstNames.length)],
-                    malePatronymics[rand.nextInt(malePatronymics.length)], SEX_M, RandomBirthDateGenerator.getNew(),
-                    RandomValidInnGenerator.getNew(), RandomIndexGenerator.getNew(),
-                    peopleCountry[rand.nextInt(peopleCountry.length)], peopleRegion[rand.nextInt(peopleRegion.length)],
-                    peopleCity[rand.nextInt(peopleCity.length)], peopleStreet[rand.nextInt(peopleStreet.length)],
-                    rand.nextInt(29) + 1, rand.nextInt(499) + 1));
+            Person male = new Person.Builder().setLastName(maleLastNames[rand.nextInt(maleLastNames.length)])
+                    .setFirstName(maleFirstNames[rand.nextInt(maleFirstNames.length)])
+                    .setPatronymic(malePatronymics[rand.nextInt(malePatronymics.length)])
+                    .setBirthDate(RandomBirthDateGenerator.getNew()).setInn(RandomValidInnGenerator.getNew())
+                    .setIndex(RandomIndexGenerator.getNew())
+                    .setCountry(peopleCountry[rand.nextInt(peopleCountry.length)])
+                    .setRegion(peopleRegion[rand.nextInt(peopleRegion.length)])
+                    .setCity(peopleCity[rand.nextInt(peopleCity.length)])
+                    .setStreet(peopleStreet[rand.nextInt(peopleStreet.length)]).setHouse(rand.nextInt(29) + 1)
+                    .setFlat(rand.nextInt(499) + 1).setSex(SEX_M).build();
+            people.add(male);
         }
 
         String[] femaleLastNames = StubContentFetcher.get(FEMALE_LAST_NAMES_STUB);
@@ -147,13 +151,17 @@ public class ExcelCreator {
         String[] femalePatronymics = StubContentFetcher.get(FEMALE_PATRONYMICS_STUB);
 
         for (int i = 0; i < qnt2; i++) {
-            people.add(new Person(femaleLastNames[rand.nextInt(femaleLastNames.length)],
-                    femaleFirstNames[rand.nextInt(femaleFirstNames.length)],
-                    femalePatronymics[rand.nextInt(femalePatronymics.length)], SEX_F, RandomBirthDateGenerator.getNew(),
-                    RandomValidInnGenerator.getNew(), RandomIndexGenerator.getNew(),
-                    peopleCountry[rand.nextInt(peopleCountry.length)], peopleRegion[rand.nextInt(peopleRegion.length)],
-                    peopleCity[rand.nextInt(peopleCity.length)], peopleStreet[rand.nextInt(peopleStreet.length)],
-                    rand.nextInt(29) + 1, rand.nextInt(499) + 1));
+            Person female = new Person.Builder().setLastName(femaleLastNames[rand.nextInt(femaleLastNames.length)])
+                    .setFirstName(femaleFirstNames[rand.nextInt(femaleFirstNames.length)])
+                    .setPatronymic(femalePatronymics[rand.nextInt(femalePatronymics.length)])
+                    .setBirthDate(RandomBirthDateGenerator.getNew()).setInn(RandomValidInnGenerator.getNew())
+                    .setIndex(RandomIndexGenerator.getNew())
+                    .setCountry(peopleCountry[rand.nextInt(peopleCountry.length)])
+                    .setRegion(peopleRegion[rand.nextInt(peopleRegion.length)])
+                    .setCity(peopleCity[rand.nextInt(peopleCity.length)])
+                    .setStreet(peopleStreet[rand.nextInt(peopleStreet.length)]).setHouse(rand.nextInt(29) + 1)
+                    .setFlat(rand.nextInt(499) + 1).setSex(SEX_F).build();
+            people.add(female);
         }
 
         System.out.printf(LIST_CREATION_CONSOLE_OUTPUT, people.size());
