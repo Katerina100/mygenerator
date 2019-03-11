@@ -77,7 +77,7 @@ public class PdfCreator {
         for (int rn = 1; rn <= sheet.getLastRowNum(); rn++) {
             Row row = sheet.getRow(rn);
             List<String> values = new ArrayList<String>();
-            for (int cn = 0; cn < 11; cn++) {
+            for (int cn = 0; cn < 12; cn++) {
                 Cell cell = row.getCell(cn);
                 String val = null;
                 if (cell != null) {

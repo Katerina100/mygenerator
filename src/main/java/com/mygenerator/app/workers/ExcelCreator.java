@@ -3,6 +3,7 @@ package com.mygenerator.app.workers;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.ZoneId;
@@ -12,6 +13,7 @@ import java.util.List;
 import java.util.Random;
 
 import com.mygenerator.app.models.Person;
+import com.mygenerator.app.utils.JsonApiParser;
 import com.mygenerator.app.utils.RandomBirthDateGenerator;
 import com.mygenerator.app.utils.RandomIndexGenerator;
 import com.mygenerator.app.utils.RandomValidInnGenerator;
@@ -80,7 +82,13 @@ public class ExcelCreator {
     }
 
     public void create() {
-        List<Person> people = createPeopleList();
+        List<Person> people;
+        try {
+            people = createPeopleListFromApi();
+        } catch (Exception e) {
+            people = createPeopleListFromStub();
+        }
+
         XSSFWorkbook book = new XSSFWorkbook();
 
         Sheet sheet = book.createSheet(SHEET_NAME);
@@ -120,7 +128,20 @@ public class ExcelCreator {
         return this.xlsFile.getAbsolutePath();
     }
 
-    private ArrayList<Person> createPeopleList() {
+    private ArrayList<Person> createPeopleListFromApi() throws Exception {
+        ArrayList<Person> people = new ArrayList<Person>();
+        Random rand = new Random();
+
+        for (int i = 0; i < rand.nextInt(29) + 1; i++) {
+            people.add(JsonApiParser.fetchRandomUser());
+        }
+
+        System.out.printf(LIST_CREATION_CONSOLE_OUTPUT, people.size());
+
+        return people;
+    }
+
+    private ArrayList<Person> createPeopleListFromStub() {
         ArrayList<Person> people = new ArrayList<Person>();
 
         Random rand = new Random();
