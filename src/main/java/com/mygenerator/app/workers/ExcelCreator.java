@@ -108,19 +108,12 @@ public class ExcelCreator {
 
         this.xlsFile = new File(this.outXlsxFilePathName);
 
-        try {
-            book.write(new FileOutputStream(this.xlsFile));
+        try(FileOutputStream fileOutputStream = new FileOutputStream(this.xlsFile)) {
+            book.write(fileOutputStream);
+            book.close();
             System.out.printf(XLS_FILE_CREATION_CONSOLE_OUTPUT, this.xlsFile.getAbsolutePath());
         } catch (IOException e) {
             e.printStackTrace();
-        } finally {
-            if (book != null) {
-                try {
-                    book.close();
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                }
-            }
         }
     }
 

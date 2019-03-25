@@ -31,7 +31,6 @@ public class JsonApiParser {
             connection.setRequestProperty("User-Agent", USER_AGENT);
 
             BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-            in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
 
             String inputLine;
             while ((inputLine = in.readLine()) != null) {

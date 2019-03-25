@@ -21,9 +21,9 @@ import org.apache.poi.ss.usermodel.WorkbookFactory;
 public class PdfCreator {
     private String srcXlsxFilePathName;
 
-    public static final String FONT_PATH = "src/main/assets/fonts/DejaVuSans.ttf";
-    public static final String PDF_SEPARATOR = "  |  ";
-    public static final String PDF_FILE_CREATION_CONSOLE_OUTPUT = "Создан PDF файл: %s%n";
+    private static final String FONT_PATH = "src/main/assets/fonts/DejaVuSans.ttf";
+    private static final String PDF_SEPARATOR = "  |  ";
+    private static final String PDF_FILE_CREATION_CONSOLE_OUTPUT = "Создан PDF файл: %s%n";
 
     public PdfCreator(String srcXlsxFilePathName) {
         this.srcXlsxFilePathName = srcXlsxFilePathName;
