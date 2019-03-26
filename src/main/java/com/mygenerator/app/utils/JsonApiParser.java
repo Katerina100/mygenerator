@@ -9,10 +9,10 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Random;
-
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.mygenerator.app.models.Person;
+import com.mygenerator.app.utils.MySqlInsert;
 
 import org.apache.commons.lang3.text.WordUtils;
 
@@ -71,6 +71,8 @@ public class JsonApiParser {
         String shortSex = sex.getAsString().substring(0, 1);
         String rawStreet = street.getAsString().replaceAll("\\d+", "");
         int rawHouse = Integer.parseInt(street.getAsString().replaceAll("\\D+", ""));
+
+        MySqlInsert.sqlConnectInsert();
 
         return new Person.Builder().setLastName(WordUtils.capitalize(lastName.getAsString()))
                 .setFirstName(WordUtils.capitalize(firstName.getAsString())).setPatronymic("")

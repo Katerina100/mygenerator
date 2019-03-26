@@ -49,9 +49,7 @@ public final class Person {
         return this.sex;
     }
 
-    public Date getBirthDate() {
-        return this.birthDate;
-    }
+    public Date getBirthDate() { return this.birthDate; }
 
     public String getInn() {
         return this.inn;
@@ -61,9 +59,7 @@ public final class Person {
         return this.index;
     }
 
-    public String getCountry() {
-        return this.country;
-    }
+    public String getCountry() { return this.country; }
 
     public String getRegion() {
         return this.region;
