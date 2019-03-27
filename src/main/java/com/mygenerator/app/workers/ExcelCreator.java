@@ -3,17 +3,16 @@ package com.mygenerator.app.workers;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.time.LocalDate;
 import java.time.Period;
-import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
 import com.mygenerator.app.models.Person;
+import com.mygenerator.app.utils.DateHelper;
 import com.mygenerator.app.utils.JsonApiParser;
+import com.mygenerator.app.utils.MySqlInsert;
 import com.mygenerator.app.utils.RandomBirthDateGenerator;
 import com.mygenerator.app.utils.RandomIndexGenerator;
 import com.mygenerator.app.utils.RandomValidInnGenerator;
@@ -32,50 +31,55 @@ public class ExcelCreator {
     private File xlsFile;
     private String outXlsxFilePathName;
 
-    public static final String STUBS_DIRECTORY_PATH = "src/main/stubs";
+    private static final String URL = "jdbc:mysql://localhost:3306/mygenerator?serverTimezone=Europe/Moscow&useSSL=false";
+    private static final String USER = "root";
+    private static final String PASSWORD = "root";
 
-    public static final String MALE_DIRECTORY_PATH = "/male";
-    public static final String FEMALE_DIRECTORY_PATH = "/female";
-    public static final String PEOPLE_DIRECTORY_PATH = "/people";
+    private static final String STUBS_DIRECTORY_PATH = "src/main/stubs";
 
-    public static final String MALE_LAST_NAMES_STUB = STUBS_DIRECTORY_PATH + MALE_DIRECTORY_PATH + "/maleLastNames.txt";
-    public static final String MALE_FIRST_NAMES_STUB = STUBS_DIRECTORY_PATH + MALE_DIRECTORY_PATH
+    private static final String MALE_DIRECTORY_PATH = "/male";
+    private static final String FEMALE_DIRECTORY_PATH = "/female";
+    private static final String PEOPLE_DIRECTORY_PATH = "/people";
+
+    private static final String MALE_LAST_NAMES_STUB = STUBS_DIRECTORY_PATH + MALE_DIRECTORY_PATH
+            + "/maleLastNames.txt";
+    private static final String MALE_FIRST_NAMES_STUB = STUBS_DIRECTORY_PATH + MALE_DIRECTORY_PATH
             + "/maleFirstNames.txt";
-    public static final String MALE_PATRONYMICS_STUB = STUBS_DIRECTORY_PATH + MALE_DIRECTORY_PATH
+    private static final String MALE_PATRONYMICS_STUB = STUBS_DIRECTORY_PATH + MALE_DIRECTORY_PATH
             + "/malePatronymics.txt";
 
-    public static final String FEMALE_LAST_NAMES_STUB = STUBS_DIRECTORY_PATH + FEMALE_DIRECTORY_PATH
+    private static final String FEMALE_LAST_NAMES_STUB = STUBS_DIRECTORY_PATH + FEMALE_DIRECTORY_PATH
             + "/femaleLastNames.txt";
-    public static final String FEMALE_FIRST_NAMES_STUB = STUBS_DIRECTORY_PATH + FEMALE_DIRECTORY_PATH
+    private static final String FEMALE_FIRST_NAMES_STUB = STUBS_DIRECTORY_PATH + FEMALE_DIRECTORY_PATH
             + "/femaleFirstNames.txt";
-    public static final String FEMALE_PATRONYMICS_STUB = STUBS_DIRECTORY_PATH + FEMALE_DIRECTORY_PATH
+    private static final String FEMALE_PATRONYMICS_STUB = STUBS_DIRECTORY_PATH + FEMALE_DIRECTORY_PATH
             + "/femalePatronymics.txt";
 
-    public static final String COUNTRIES_STUB = STUBS_DIRECTORY_PATH + PEOPLE_DIRECTORY_PATH + "/peopleCountry.txt";
-    public static final String CITIES_STUB = STUBS_DIRECTORY_PATH + PEOPLE_DIRECTORY_PATH + "/peopleCity.txt";
-    public static final String REGIONS_STUB = STUBS_DIRECTORY_PATH + PEOPLE_DIRECTORY_PATH + "/peopleRegion.txt";
-    public static final String STREETS_STUB = STUBS_DIRECTORY_PATH + PEOPLE_DIRECTORY_PATH + "/peopleStreet.txt";
+    private static final String COUNTRIES_STUB = STUBS_DIRECTORY_PATH + PEOPLE_DIRECTORY_PATH + "/peopleCountry.txt";
+    private static final String CITIES_STUB = STUBS_DIRECTORY_PATH + PEOPLE_DIRECTORY_PATH + "/peopleCity.txt";
+    private static final String REGIONS_STUB = STUBS_DIRECTORY_PATH + PEOPLE_DIRECTORY_PATH + "/peopleRegion.txt";
+    private static final String STREETS_STUB = STUBS_DIRECTORY_PATH + PEOPLE_DIRECTORY_PATH + "/peopleStreet.txt";
 
-    public static final String SEX_M = "М";
-    public static final String SEX_F = "Ж";
+    private static final String SEX_M = "М";
+    private static final String SEX_F = "Ж";
 
-    public static final String SHEET_NAME = "Список людей";
+    private static final String SHEET_NAME = "Список людей";
 
-    public static final String HEADER_ROW_CELL_LFP = "ФИО";
-    public static final String HEADER_ROW_CELL_AGE = "Возраст";
-    public static final String HEADER_ROW_CELL_SEX = "Пол";
-    public static final String HEADER_ROW_CELL_BD = "Дата рождения";
-    public static final String HEADER_ROW_CELL_INN = "ИНН";
-    public static final String HEADER_ROW_CELL_ZIP = "Индекс";
-    public static final String HEADER_ROW_CELL_COUNTRY = "Страна";
-    public static final String HEADER_ROW_CELL_REGION = "Область";
-    public static final String HEADER_ROW_CELL_CITY = "Город";
-    public static final String HEADER_ROW_CELL_STREET = "Улица";
-    public static final String HEADER_ROW_CELL_BUILDING = "Дом";
-    public static final String HEADER_ROW_CELL_FLAT = "Квартира";
+    private static final String HEADER_ROW_CELL_LFP = "ФИО";
+    private static final String HEADER_ROW_CELL_AGE = "Возраст";
+    private static final String HEADER_ROW_CELL_SEX = "Пол";
+    private static final String HEADER_ROW_CELL_BD = "Дата рождения";
+    private static final String HEADER_ROW_CELL_INN = "ИНН";
+    private static final String HEADER_ROW_CELL_ZIP = "Индекс";
+    private static final String HEADER_ROW_CELL_COUNTRY = "Страна";
+    private static final String HEADER_ROW_CELL_REGION = "Область";
+    private static final String HEADER_ROW_CELL_CITY = "Город";
+    private static final String HEADER_ROW_CELL_STREET = "Улица";
+    private static final String HEADER_ROW_CELL_BUILDING = "Дом";
+    private static final String HEADER_ROW_CELL_FLAT = "Квартира";
 
-    public static final String LIST_CREATION_CONSOLE_OUTPUT = "Сгенерирован список из %s записей%n";
-    public static final String XLS_FILE_CREATION_CONSOLE_OUTPUT = "Создан XLSX файл: %s%n";
+    private static final String LIST_CREATION_CONSOLE_OUTPUT = "Сгенерирован список из %s записей%n";
+    private static final String XLS_FILE_CREATION_CONSOLE_OUTPUT = "Создан XLSX файл: %s%n";
 
     public ExcelCreator(String outXlsxFilePathName) {
         this.outXlsxFilePathName = outXlsxFilePathName;
@@ -85,8 +89,11 @@ public class ExcelCreator {
         List<Person> people;
         try {
             people = createPeopleListFromApi();
+            MySqlInsert.sqlConnectInsert(people);
         } catch (Exception e) {
             people = createPeopleListFromStub();
+            MySqlInsert.sqlConnectInsert(people);
+            e.printStackTrace();
         }
 
         XSSFWorkbook book = new XSSFWorkbook();
@@ -108,7 +115,7 @@ public class ExcelCreator {
 
         this.xlsFile = new File(this.outXlsxFilePathName);
 
-        try(FileOutputStream fileOutputStream = new FileOutputStream(this.xlsFile)) {
+        try (FileOutputStream fileOutputStream = new FileOutputStream(this.xlsFile)) {
             book.write(fileOutputStream);
             book.close();
             System.out.printf(XLS_FILE_CREATION_CONSOLE_OUTPUT, this.xlsFile.getAbsolutePath());
@@ -207,7 +214,9 @@ public class ExcelCreator {
             fullName.setCellValue(person.toString());
 
             Cell age = row.createCell(1);
-            int personAge = Period.between(getLocalDate(person.getBirthDate()), getLocalDate(currentDate)).getYears();
+            int personAge = Period
+                    .between(DateHelper.getLocalDate(person.getBirthDate()), DateHelper.getLocalDate(currentDate))
+                    .getYears();
             age.setCellValue(personAge);
 
             Cell sex = row.createCell(2);
@@ -256,9 +265,5 @@ public class ExcelCreator {
         for (int i = 0; i < row.getLastCellNum(); i++) {
             row.getCell(i).setCellStyle(style);
         }
-    }
-
-    private LocalDate getLocalDate(Date date) {
-        return date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
     }
 }
