@@ -92,7 +92,6 @@ public class ExcelCreator {
             MySqlInsert.sqlConnectInsert(people);
         } catch (Exception e) {
             people = createPeopleListFromStub();
-            MySqlInsert.sqlConnectInsert(people);
             e.printStackTrace();
         }
 
